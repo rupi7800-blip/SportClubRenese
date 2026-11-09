@@ -35,6 +35,7 @@
   const passata = a => fine(a) < now();
   const classe = a => a.tipo === 'allenamento' ? a.ambiente : a.tipo;
   const nomeTipo = a => a.tipo === 'allenamento' ? 'Allenamento ' + a.ambiente : a.tipo === 'gara' ? 'Gara' : 'Evento';
+  const numIt = n => typeof n === 'number' ? n.toLocaleString('it-IT', { maximumFractionDigits: 2 }) : n;
   const club = s => (C.CLUB_CHIAVI || ['renese']).some(k => new RegExp('\\b' + k + '\\b', 'i').test(String(s || '')));
   const IC = {
     clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
@@ -547,7 +548,7 @@
     const c = S.cls && S.cls.societa && S.cls.societa.righe;
     if (!c || !c.length) return null;
     const r = c.find(x => club(x.societa));
-    return r ? { pos: r.pos, punti: r.punti, anno: S.cls.anno || '' } : null;
+    return r ? { pos: r.pos, punti: numIt(r.punti), anno: S.cls.anno || '' } : null;
   }
 
   /* ---------- CALENDARIO ---------- */
@@ -672,7 +673,7 @@
     if (q) { const t = q.toLowerCase(); rows = rows.filter(r => cols.some(c => String(r[c.k] == null ? '' : r[c.k]).toLowerCase().includes(t))); }
     if (!rows.length) return '<div class="empty">Nessuna riga' + (q ? ' per “' + esc(q) + '”' : '') + '.</div>';
     return '<div class="table-wrap" style="max-height:62vh"><table><tr>' + cols.map(c => '<th' + (c.num ? ' class="num"' : '') + '>' + c.l + '</th>').join('') + '</tr>' +
-      rows.map(r => '<tr' + (club(r.societa) ? ' class="club"' : '') + '>' + cols.map(c => '<td' + (c.num ? ' class="num"' : '') + '>' + esc(r[c.k] == null ? '' : r[c.k]) + '</td>').join('') + '</tr>').join('') + '</table></div>';
+      rows.map(r => '<tr' + (club(r.societa) ? ' class="club"' : '') + '>' + cols.map(c => '<td' + (c.num ? ' class="num"' : '') + '>' + esc(r[c.k] == null ? '' : c.num ? numIt(r[c.k]) : r[c.k]) + '</td>').join('') + '</tr>').join('') + '</table></div>';
   }
   function fonte(b) {
     if (!b) return '';
@@ -688,7 +689,7 @@
     let body = '';
     const mio = (d.societa && (d.societa.righe || []).find(r => club(r.societa)));
     if (u.clsTab === 'societa') {
-      body = (mio ? '<div class="hero" style="margin-bottom:12px"><div class="podio"><span class="pos">' + mio.pos + 'ª</span><div><h1 style="font-size:22px">' + esc(mio.societa) + '</h1><p>' + esc(mio.punti) + ' punti · classifica nazionale società ' + esc(d.anno || '') + '</p></div></div></div>' : '') +
+      body = (mio ? '<div class="hero" style="margin-bottom:12px"><div class="podio"><span class="pos">' + mio.pos + 'ª</span><div><h1 style="font-size:22px">' + esc(mio.societa) + '</h1><p>' + esc(numIt(mio.punti)) + ' punti · classifica nazionale società ' + esc(d.anno || '') + '</p></div></div></div>' : '') +
         fonte(d.societa) + tabella(d.societa && d.societa.righe, [{ k: 'pos', l: 'Pos.' }, { k: 'societa', l: 'Società' }, { k: 'punti', l: 'Punti', num: true }], u.clsQ);
     } else if (u.clsTab === 'atleti') {
       const righe = (d.atleti && d.atleti.righe) || [];

@@ -141,7 +141,7 @@ def pdf_testo(url):
 
 def numero(s):
     s = s.strip()
-    if re.fullmatch(r"\d{1,3}(?:\.\d{3})+", s):
+    if re.fullmatch(r"\d{1,3}(?:\.\d{3})+(?:,\d+)?", s):   # 3.737,07 · 1.884
         s = s.replace(".", "")
     s = s.replace(",", ".")
     try:
@@ -151,8 +151,8 @@ def numero(s):
     return int(v) if v.is_integer() else round(v, 2)
 
 
-RIGA = re.compile(r"^\s*(\d{1,4})\s*[°ºª.)]?\s+(.*?\S)\s+(\d{1,3}(?:\.\d{3})+|\d+(?:[.,]\d+)?)\s*$")
-RIGA_PARI = re.compile(r"^\s{0,12}([A-Za-zÀ-ÿ'\"].*?\S)\s+(\d{1,3}(?:\.\d{3})+|\d+(?:[.,]\d+)?)\s*$")
+RIGA = re.compile(r"^\s*(\d{1,4})\s*[°ºª.)]?\s+(.*?\S)\s+(\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+(?:[.,]\d+)?)\s*$")
+RIGA_PARI = re.compile(r"^\s{0,12}([A-Za-zÀ-ÿ'\"].*?\S)\s+(\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+(?:[.,]\d+)?)\s*$")
 INTESTAZIONE = re.compile(r"\b(pos\.?|posizione|class\.?|societ[aà]'?|punti|punteggio|atleta|cognome|tessera|pagina|page)\b", re.I)
 
 
@@ -174,7 +174,7 @@ def leggi_righe(txt):
             # ex aequo: la riga non ha posizione e il primo numero è un codice
             # (più rientrata delle altre, con zeri iniziali o con un salto di posizione assurdo)
             codice = (rientro is not None and ind > rientro + 3) or (m.group(1).startswith("0") and len(m.group(1)) > 1) \
-                or (in_tabella and pos > ultima_pos + 40)
+                or (in_tabella and pos > ultima_pos + 300)
             if codice:
                 mezzo, pos = m.group(1) + "  " + mezzo, ultima_pos
             elif rientro is None:
