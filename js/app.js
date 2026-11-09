@@ -672,12 +672,15 @@
     let rows = righe || [];
     if (q) { const t = q.toLowerCase(); rows = rows.filter(r => cols.some(c => String(r[c.k] == null ? '' : r[c.k]).toLowerCase().includes(t))); }
     if (!rows.length) return '<div class="empty">Nessuna riga' + (q ? ' per “' + esc(q) + '”' : '') + '.</div>';
-    return '<div class="table-wrap" style="max-height:62vh"><table><tr>' + cols.map(c => '<th' + (c.num ? ' class="num"' : '') + '>' + c.l + '</th>').join('') + '</tr>' +
+    const tot = rows.length, MAX = 300;
+    if (tot > MAX) rows = rows.slice(0, MAX);
+    return (tot > MAX ? '<p class="small muted">Prime ' + MAX + ' righe su ' + tot + ': usa la ricerca per trovare gli altri.</p>' : '') + '<div class="table-wrap" style="max-height:62vh"><table><tr>' + cols.map(c => '<th' + (c.num ? ' class="num"' : '') + '>' + c.l + '</th>').join('') + '</tr>' +
       rows.map(r => '<tr' + (club(r.societa) ? ' class="club"' : '') + '>' + cols.map(c => '<td' + (c.num ? ' class="num"' : '') + '>' + esc(r[c.k] == null ? '' : c.num ? numIt(r[c.k]) : r[c.k]) + '</td>').join('') + '</tr>').join('') + '</table></div>';
   }
   function fonte(b) {
     if (!b) return '';
-    return '<p class="small muted">' + esc(b.titolo || '') + (b.aggiornamento ? ' · ' + esc(b.aggiornamento) : '') + (b.url ? ' · <a href="' + esc(b.url) + '" target="_blank" rel="noopener">PDF ufficiale FICSF</a>' : '') + '</p>';
+    const tit = String(b.titolo || '').replace(/^\d+[_\s-]+/, '').replace(/\s*agg\.?\s.*$/i, '').replace(/^./, c => c.toUpperCase());
+    return '<p class="small muted">' + esc(tit) + (b.aggiornamento ? ' · ' + esc(b.aggiornamento) : '') + (b.url ? ' · <a href="' + esc(b.url) + '" target="_blank" rel="noopener">PDF ufficiale FICSF</a>' : '') + '</p>';
   }
   async function vClassifiche() {
     const u = S.ui;
