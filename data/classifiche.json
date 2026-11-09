@@ -6,7 +6,7 @@
  "specialita": [],
  "notizie": [],
  "stato": "vuoto",
- "messaggio": "Ultimo controllo: pagina classifiche non raggiungibile (Remote end closed connection without response); notizie non lette (Remote end closed connection without response). Restano i dati letti in precedenza.",
- "aggiornato": "2026-11-09T20:49:11+00:00",
- "controllato": "2026-11-09T20:49:11+00:00"
+ "messaggio": "Ultimo controllo: pagina classifiche non raggiungibile (Nessuna pagina classifiche con PDF trovata). Restano i dati letti in precedenza.",
+ "aggiornato": "2026-11-09T20:50:17+00:00",
+ "controllato": "2026-11-09T20:50:17+00:00"
 }
