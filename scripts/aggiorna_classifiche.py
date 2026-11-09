@@ -31,12 +31,44 @@ CATEGORIE = re.compile(r"\b(ESORDIENT\w*|ALLIEV\w*|CADETT\w*|RAGAZZ\w*|JUNIOR\w*
 SPECIALITA = ["Jole", "Elba", "Gozzo", "VIP", "Lance", "Galeone", "Lucia"]
 
 
-def get(url, binary=False, timeout=40):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "it-IT,it;q=0.9"})
+BROWSER_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+HEADERS = {
+    "User-Agent": BROWSER_UA,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,application/pdf,application/json;q=0.8,*/*;q=0.7",
+    "Accept-Language": "it-IT,it;q=0.9,en;q=0.6",
+    "Connection": "close",
+}
+
+
+def _urllib(url, timeout):
+    req = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        data = r.read()
-        final = r.geturl()
-    return (data if binary else data.decode("utf-8", "replace")), final
+        return r.read(), r.geturl()
+
+
+def _curl(url, timeout):
+    res = subprocess.run(["curl", "-sS", "-L", "--compressed", "--max-time", str(timeout), "--retry", "2", "--retry-delay", "3",
+                          "-A", BROWSER_UA, "-H", "Accept-Language: it-IT,it;q=0.9", "-w", "\n%{url_effective}", url],
+                         capture_output=True, timeout=timeout + 20)
+    if res.returncode != 0:
+        raise RuntimeError("curl: " + res.stderr.decode("utf-8", "replace").strip()[:200])
+    body, _, final = res.stdout.rpartition(b"\n")
+    return body, final.decode() or url
+
+
+def get(url, binary=False, timeout=40):
+    """Scarica un indirizzo: prima come un browser normale, poi con curl, con qualche tentativo."""
+    import time
+    ultimo = None
+    for tentativo in range(3):
+        for metodo in (_urllib, _curl):
+            try:
+                data, final = metodo(url, timeout)
+                return (data if binary else data.decode("utf-8", "replace")), final
+            except Exception as e:  # noqa: BLE001
+                ultimo = e
+        time.sleep(4 * (tentativo + 1))
+    raise ultimo
 
 
 def links(page_html, base_url):
