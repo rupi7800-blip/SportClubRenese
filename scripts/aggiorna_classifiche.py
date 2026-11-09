@@ -85,6 +85,10 @@ def links(page_html, base_url):
 def pagina_anno():
     """Trova la pagina delle classifiche dell'anno più recente che ha PDF."""
     page, final = get(PAGINA_CLASSIFICHE)
+    if not re.search(r">\s*20\d\d\s*<", page):
+        t = re.search(r"<title>(.*?)</title>", page, re.S | re.I)
+        print(f"  risposta inattesa da {final}: titolo={t.group(1).strip()[:80] if t else '-'} · {len(page)} caratteri · "
+              + re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", page))[:300], file=sys.stderr)
     anni = {}
     for href, text in links(page, final):
         m = re.fullmatch(r"(?:classifiche\s*)?(20\d\d)", text.strip(), re.I)
@@ -257,6 +261,8 @@ def notizie():
     for q in ("per_page=12", "per_page=10&search=renese"):
         try:
             data, _ = get(f"{BASE}/wp-json/wp/v2/posts?{q}&_fields=date,link,title")
+            if not data.lstrip().startswith("["):
+                raise ValueError("risposta non JSON: " + re.sub(r"\s+", " ", data)[:160])
             for p in json.loads(data):
                 add(html.unescape(re.sub(r"<[^>]+>", "", p["title"]["rendered"])).strip(), p["link"], p.get("date"))
         except Exception as e:  # noqa: BLE001
