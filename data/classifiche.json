@@ -7,6 +7,61 @@
   "aggiornamento": "aggiornata al 25 ottobre",
   "righe": [
    {
+    "pos": 1,
+    "societa": "A.S.D. CLUB SPORTIVO URANIA",
+    "punti": 3737.07
+   },
+   {
+    "pos": 2,
+    "societa": "ASD SPORT CLUB RENESE",
+    "punti": 2647.57
+   },
+   {
+    "pos": 3,
+    "societa": "ASD CANOTTIERI PORTO CERESIO",
+    "punti": 2545.96
+   },
+   {
+    "pos": 4,
+    "societa": "CANOTTIERI GERMIGNAGA A.S.D.",
+    "punti": 2482.63
+   },
+   {
+    "pos": 5,
+    "societa": "A.D.S.SCALO QUINTO GIACOMO BERAGNOLI",
+    "punti": 2463.84
+   },
+   {
+    "pos": 6,
+    "societa": "A.S.D.CANOTTIERI AROLO",
+    "punti": 1884
+   },
+   {
+    "pos": 7,
+    "societa": "SPORTIVA MURCAROLO A.S.D.",
+    "punti": 1557.3
+   },
+   {
+    "pos": 8,
+    "societa": "CANOTTIERI ALDO MEDA CIMA",
+    "punti": 1393.02
+   },
+   {
+    "pos": 9,
+    "societa": "S.S.D. CANOTTIERI DE BASTIANI ANGERA",
+    "punti": 1279.78
+   },
+   {
+    "pos": 10,
+    "societa": "ASD CANNERO SPORTIVA",
+    "punti": 1253.73
+   },
+   {
+    "pos": 11,
+    "societa": "A.S.D. CAN.FALCO DELLA RUPE NESSO",
+    "punti": 1107.4
+   },
+   {
     "pos": 12,
     "societa": "G.S.D.CANOTTIERI VOLTRI",
     "punti": 946.33
@@ -15690,6 +15745,6 @@
  "pagina": "https://ficsf.it/classifiche/classifiche-2026/",
  "stato": "ok",
  "messaggio": "",
- "aggiornato": "2026-11-09T20:52:29+00:00",
- "controllato": "2026-11-09T20:52:29+00:00"
+ "aggiornato": "2026-11-09T20:54:49+00:00",
+ "controllato": "2026-11-09T20:54:49+00:00"
 }
