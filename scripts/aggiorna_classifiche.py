@@ -201,11 +201,25 @@ def leggi_righe(txt):
     return righe
 
 
+def pulisci_societa(nome):
+    """Toglie il codice federale davanti al nome: "160-ASD SPORT CLUB RENESE" → "ASD SPORT CLUB RENESE"."""
+    return re.sub(r"^\d+\s*[-–.]?\s*", "", nome).strip(" -–")
+
+
+def diagnostica(nome, txt, righe):
+    """Se la classifica non parte dal 1º posto, mostra l'inizio del testo per capire il formato."""
+    if righe and righe[0]["pos"] == 1:
+        return
+    print(f"  [{nome}] la prima riga letta è la posizione {righe[0]['pos'] if righe else '-'}: inizio del testo del PDF:", file=sys.stderr)
+    for l in [l for l in txt.splitlines() if l.strip()][:45]:
+        print("   | " + l[:150], file=sys.stderr)
+
+
 def classifica_societa(txt):
     out = []
     for r in leggi_righe(txt):
         nome = max(r["cols"], key=len) if len(r["cols"]) > 1 and all(CATEGORIE.search(c) is None for c in r["cols"]) else " ".join(r["cols"])
-        nome = re.sub(r"^\d+\s+", "", nome).strip(" -–")
+        nome = pulisci_societa(nome)
         out.append({"pos": r["pos"], "societa": nome, "punti": r["punti"], **({"sezione": r["sezione"]} if r["sezione"] else {})})
     return valida(out)
 
@@ -229,12 +243,16 @@ def classifica_atleti(txt, societa_note):
         if soc in cols:
             cols.remove(soc)
         nome = " ".join(cols).strip()
+        tessera = next((n for n in r["nums"] if re.fullmatch(r"\d{4,}", n)), None)
+        mt = re.match(r"^(\d{4,})\s+(.*)$", nome)
+        if mt:
+            tessera, nome = tessera or mt.group(1), mt.group(2)
         if not nome:
             continue
-        tessera = next((n for n in r["nums"] if re.fullmatch(r"\d{4,}", n)), None)
+        soc = pulisci_societa(soc or "")
         sez = r["sezione"]
         categoria = sez if sez and (not cat or cat.lower()[:5] in sez.lower()) else (cat or sez or "")
-        riga = {"pos": r["pos"], "nome": nome, "societa": soc or "", "categoria": categoria, "punti": r["punti"]}
+        riga = {"pos": r["pos"], "nome": nome, "societa": soc, "categoria": categoria, "punti": r["punti"]}
         if tessera:
             riga["tessera"] = tessera
         out.append(riga)
@@ -306,7 +324,9 @@ def main():
         soc = scegli(pdf, "societ")
         if soc:
             try:
-                righe = classifica_societa(pdf_testo(soc[0]))
+                testo = pdf_testo(soc[0])
+                righe = classifica_societa(testo)
+                diagnostica("società", testo, righe)
                 nuovo["societa"] = blocco(soc[1], soc[0], righe)
                 print(f"  società: {len(righe)} righe")
             except Exception as e:  # noqa: BLE001
