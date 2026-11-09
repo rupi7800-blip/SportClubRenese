@@ -1,0 +1,12 @@
+{
+ "fonte": "https://ficsf.it/classifiche/",
+ "anno": 2026,
+ "societa": null,
+ "atleti": null,
+ "specialita": [],
+ "notizie": [],
+ "stato": "vuoto",
+ "messaggio": "Le classifiche ufficiali FICSF compariranno dopo la prima lettura automatica (ogni giorno, oppure subito da GitHub → Actions → Aggiorna classifiche FICSF → Run workflow).",
+ "aggiornato": null,
+ "controllato": null
+}
