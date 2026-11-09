@@ -6,7 +6,7 @@
  "specialita": [],
  "notizie": [],
  "stato": "vuoto",
- "messaggio": "Le classifiche ufficiali FICSF compariranno dopo la prima lettura automatica (ogni giorno, oppure subito da GitHub → Actions → Aggiorna classifiche FICSF → Run workflow).",
- "aggiornato": null,
- "controllato": null
+ "messaggio": "Ultimo controllo: pagina classifiche non raggiungibile (Remote end closed connection without response); notizie non lette (Remote end closed connection without response). Restano i dati letti in precedenza.",
+ "aggiornato": "2026-11-09T20:49:11+00:00",
+ "controllato": "2026-11-09T20:49:11+00:00"
 }
