@@ -15622,6 +15622,12 @@
  ],
  "notizie": [
   {
+   "titolo": "Domenica 13 dicembre a Osteno la Coppa d’Inverno",
+   "url": "https://ficsf.it/2026/11/domenica-13-dicembre-a-osteno-la-coppa-dinverno/",
+   "data": "2026-11-12",
+   "club": false
+  },
+  {
    "titolo": "Peschiera del Garda festeggia San Martino sull’acqua",
    "url": "https://ficsf.it/2026/11/peschiera-del-garda-festeggia-san-martino-sullacqua/",
    "data": "2026-11-09",
@@ -15688,12 +15694,6 @@
    "club": false
   },
   {
-   "titolo": "Domenica 25 ottobre la Gran Fondo di Porto Ceresio",
-   "url": "https://ficsf.it/2026/10/domenica-25-ottobre-la-gran-fondo-di-porto-ceresio/",
-   "data": "2026-10-22",
-   "club": false
-  },
-  {
    "titolo": "Sirmione: i Tricolori VIP 7,50 RISULTATI BATTERIE/RECUPERI e FINALI",
    "url": "https://ficsf.it/2026/09/sirmione-il-26-e-27-settembre-i-tricolori-vip-750/",
    "data": "2026-09-26",
@@ -15745,6 +15745,6 @@
  "pagina": "https://ficsf.it/classifiche/classifiche-2026/",
  "stato": "ok",
  "messaggio": "",
- "aggiornato": "2026-11-09T20:54:49+00:00",
- "controllato": "2026-11-09T20:54:49+00:00"
+ "aggiornato": "2026-11-13T05:29:53+00:00",
+ "controllato": "2026-11-13T05:29:53+00:00"
 }
